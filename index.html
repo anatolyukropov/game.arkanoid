@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8"/>
+      <title> Arkanoid </title>
+      <link href="style.css" rel="stylesheet" type="text/css"/>
+      <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+	  <script type="text/javascript" src="kyes.js"></script>
+	  <script type="text/javascript" src="graph.js"></script>
+	  <script type="text/javascript" src="player.js"></script>
+	  <script type="text/javascript" src="grid.js"></script>
+	  <script type="text/javascript" src="ball.js"></script>
+	  <script type="text/javascript" src="engine.js"></script>
+  </head>
+
+  <body> 
+  <canvas id="canv" width="600" height="600" style="position: absolute; top: 20px; left: 200px;"></canvas>
+  <div style="position: absolute; top: 20px; left: 20px;"> 
+       мячи <b id="hp">3</b> <br/>
+	   счёт <b id="score"> 0 </b> <br/>
+	   Уровень <b id="level">1</b> <br/> <br/> <br/> <br/> <br/> 
+	   Ваш Рекорд <b id="record">0</b> <br/> <br/> <br/> <br/> 
+	   FPS <b id="fps">0</b>
+	   </div>
+  <div style="position: absolute; top: 20px; left: 820px;"> 
+      Начните игру нажав кнопку пробел <br/>
+	  Если вы пропустили шарик нажмите пробел для продолжения <br/>
+      Если вы уничтожите все квадратики начнётся слующий раунд  <br/>	  
+	  в котором будет на 1 строку больше чем в предыдущем, скорость <br/>
+	  при этом останется той что была в прошлом раунде.<br/<br/>
+	  Угол отскока от платформы зависит от того куда попал шарик, <br/>
+	  В центр угол отскока 90 градусов, чем дальше от центра тем угол будет острее <br/>
+	  Наберите больше всех очков и станте легендой Арканойда :)
+	  </div>	   
+  <script type="text/javascript">
+  init(); // инициализируем контекст
+  grid.generate(1, 500, 30, 'red'); //рисуем сетку
+  player.init(120,ctx.canvas.height-30,100,10,3,'green',4, 0, 1) //создаём игрока (нач х, нач у, длинна, ширина, жизни, цвет, скорость, счёт, левел)
+  ball.init((player.x + Math.ceil(player.width/2)), player.y-6, 6, 'black'); // создаём шарик который стоит на платформе х,у, радиус, цвет.
+  document.getElementById('record').innerHTML = localStorage.getItem('MyRecord');
+  
+  var game = function() {
+	ctx.clearRect(0, 0, width, height);
+	fillAll('#ADD8E6');
+	player.move();
+    player.draw();
+	grid.draw();
+	ball.move();
+	ball.draw();
+  };
+  
+  function start() {
+	ctx.clearRect(0, 0, width, height);
+	fillAll('#ADD8E6');
+    player.draw();
+	grid.draw();
+	ball.draw(); 
+	if (KeyToStart())
+	setGame(game);
+  };
+  
+startGame(start);
+ 
+  </script>
+  </body>
+
+</html> 
